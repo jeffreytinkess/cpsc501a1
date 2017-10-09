@@ -107,4 +107,18 @@ public class SmallSetupVendingMachineFactoryTest {
     public void testWeirdName() throws DisabledException {
 	hf.configure(new ProductKind("\"", new Cents(135)));
     }
+
+
+	/**
+ 	* T501_1
+ 	* Testing add new / change method of payment
+ 	*/
+	@Test
+	public void testModifyPaymentMethod() throws DisabledException {
+		VendingMachine.getSingleton().getMoneyHandler().addPaymentMethod (new CashHandler(hf));
+		VendingMachine.getSingleton().getMoneyHandler().setMethodOfPayment (1);
+		int test = VendingMachine.getSingleton().getMoneyHandler().getAllPaymentMethod().length;
+		assertEquals(test, 2);
+}
+ 
 }

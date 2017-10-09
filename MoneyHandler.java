@@ -7,17 +7,16 @@ import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 public class MoneyHandler {
 	
 	//Used to select which method of payment will be used
-	private int methodOfPaymentSelector;
 	private List <Chargeable> availablePaymentMethods;
 	private HardwareFacade hardware;
-	
+	private Chargeable currPayMethod;
 	public MoneyHandler(HardwareFacade hw){
 		
 			//Defaults to cash payment
-			methodOfPaymentSelector = 0;
 			availablePaymentMethods = new ArrayList<Chargeable>();
 			CashHandler defaultPayment = new CashHandler(hw);
 			availablePaymentMethods.add(defaultPayment);
+			currPayMethod = defaultPayment;
 			hardware = hw;
 		
 		
@@ -49,7 +48,7 @@ public class MoneyHandler {
 		if (i >= availablePaymentMethods.size() || i < 0){
 			return false;
 		} else {
-			methodOfPaymentSelector = i;
+			currPayMethod = availablePaymentMethods.get(i);
 			return true;
 		}
 	}
@@ -75,8 +74,7 @@ public class MoneyHandler {
 	 * @return true if the payment was successful, false otherwise
 	 */
 	public boolean makePurchase (int cost){
-		Chargeable c = availablePaymentMethods.get(methodOfPaymentSelector);
-		return c.charge(cost);
+		return currPayMethod.charge(cost);
 	}
 	
 }
