@@ -13,20 +13,20 @@ public class ProductHandler {
 	 */
 	public void purchaseItem (int i){
 		if (!ps.productAvailable(i)){
-			VendingMachine.getSingleton().getUI().displayGeneralError("Product cannot be dispensed. Please check dispenser or try another selection");
+			VendingMachine.getUI().displayGeneralError("Product cannot be dispensed. Please check dispenser or try another selection");
 			return;
 		}
 		int cost = ps.getPrice(i);
-		boolean success = VendingMachine.getSingleton().getMoneyHandler().makePurchase(cost);
+		boolean success = VendingMachine.getMoneyHandler().makePurchase(cost);
 		if (success){
 			boolean b = ps.dispenseProduct(i);
 			if (!b){
 				//display error message here, problem during delivery
-				VendingMachine.getSingleton().getUI().displayHardwareError();
+				VendingMachine.getUI().displayHardwareError();
 			}
 		} else {
 			//Display payment failure here
-			VendingMachine.getSingleton().getUI().displayPaymentError();
+			VendingMachine.getUI().displayPaymentError();
 		}
 	}
 	/*

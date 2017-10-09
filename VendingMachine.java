@@ -23,24 +23,20 @@ public class VendingMachine {
      * 
      * @return The hardware.
      */
-    public HardwareFacade getHardware() {
-	return hf;
+    public static HardwareFacade getHardware() {
+	return singleton.hf;
     }
     
-    public MoneyHandler getMoneyHandler(){
-    	return mh;
+    public static MoneyHandler getMoneyHandler(){
+    	return singleton.mh;
     }
     
-    public ProductHandler getProductHandler(){
-    	return ph;
+    public static ProductHandler getProductHandler(){
+    	return singleton.ph;
     }
     
-    public UIController getUI(){
-    	return ui;
-    }
-    
-    public static VendingMachine getSingleton(){
-    	return singleton;
+    public static UIController getUI(){
+    	return singleton.ui;
     }
 
     /**

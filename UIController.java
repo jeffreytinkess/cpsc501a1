@@ -10,7 +10,7 @@ public class UIController {
 	}
 	
 	public void userInput(int i){
-		VendingMachine.getSingleton().getProductHandler().purchaseItem(i);
+		VendingMachine.getProductHandler().purchaseItem(i);
 	}
 	
 	public void displayPaymentError(){

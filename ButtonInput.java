@@ -26,7 +26,7 @@ public class ButtonInput implements SelectionButtonListener{
 
 	@Override
 	public void pressed(SelectionButton button) {
-		VendingMachine.getSingleton().getUI().userInput(hardware.indexOf(button));
+		VendingMachine.getUI().userInput(hardware.indexOf(button));
 		
 	}
 

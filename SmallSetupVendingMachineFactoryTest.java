@@ -115,9 +115,9 @@ public class SmallSetupVendingMachineFactoryTest {
  	*/
 	@Test
 	public void testModifyPaymentMethod() throws DisabledException {
-		VendingMachine.getSingleton().getMoneyHandler().addPaymentMethod (new CashHandler(hf));
-		VendingMachine.getSingleton().getMoneyHandler().setMethodOfPayment (1);
-		int test = VendingMachine.getSingleton().getMoneyHandler().getAllPaymentMethod().length;
+		VendingMachine.getMoneyHandler().addPaymentMethod (new CashHandler(hf));
+		VendingMachine.getMoneyHandler().setMethodOfPayment (1);
+		int test = VendingMachine.getMoneyHandler().getAllPaymentMethod().length;
 		assertEquals(test, 2);
 }
  
