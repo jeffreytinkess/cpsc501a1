@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 
-public class MoneyHandler {
+public class MoneyHandler extends CentralComponent{
 
 	//Used to select which method of payment will be used
 	private List <Chargeable> availablePaymentMethods;
 	private HardwareFacade hardware;
 	private Chargeable currPayMethod;
- 	private UIController ui;
-	private ProductHandler productHandler;
 	public MoneyHandler(HardwareFacade hw){
 
 			//Defaults to cash payment
@@ -20,40 +18,19 @@ public class MoneyHandler {
 			availablePaymentMethods.add(defaultPayment);
 			currPayMethod = defaultPayment;
 			hardware = hw;
-			ui = null;
-			productHandler = null;
-
-
+			mh = this;
 	}
-	/*
-	*
-	* @return True if setting UI for first time, false if replacing an existing UI
-	*/
 
-	public boolean registerUI(UIController uiIn){
-		if (ui == null){
-			ui = uiIn;
-			return true;
-		} else {
-			ui = uiIn;
+
+	  /*
+		*
+		* @override method to set mh to this
+		*/
+		public boolean registerMoneyHandler(MoneyHandler mhIn){
+			mh = this;
 			return false;
-		}
-	}
-	/*
-	*
-	* @return True if setting product handler for first time, false if replacing an existing one
-	*/
-	public boolean registerProductHandler(ProductHandler phIn){
-		if (productHandler == null){
-			productHandler = phIn;
-			return true;
-		} else {
-			productHandler = phIn;
-			return false;
-		}
 
-	}
-
+		}
 	/*
 	 * Add a new method of payment to an existing money handler
 	 */

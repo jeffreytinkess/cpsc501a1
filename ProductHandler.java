@@ -2,45 +2,24 @@
 
 import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 
-public class ProductHandler {
+public class ProductHandler extends CentralComponent{
 	private ProductSelector ps;
-	private MoneyHandler mh;
-	private UIController ui;
 	public ProductHandler (HardwareFacade hw){
 		//create a default product selector
 		ps = new PopSelector(hw);
-		mh = null;
-		ui = null;
+		ph = this;
 	}
+
 
 	/*
 	*
-	* @return True if setting UI for first time, false if replacing an existing UI
+	* Override this method to set ph to this
 	*/
-
-	public boolean registerUI(UIController uiIn){
-		if (ui == null){
-			ui = uiIn;
-			return true;
-		} else {
-			ui = uiIn;
-			return false;
-		}
+	public boolean registerProductHandler(ProductHandler phIn){
+		ph = this;
+		return false;
 	}
-	/*
-	*
-	* @return True if setting mh for first time, false if replacing an existing mh
-	*/
-	public boolean registerMoneyHandler(MoneyHandler mhIn){
-		if (mh == null){
-			mh = mhIn;
-			return true;
-		} else {
-			mh = mhIn;
-			return false;
-		}
 
-	}
 	/*
 	 * Called by the UI to indicate a selection has been made by the user
 	 */

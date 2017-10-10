@@ -2,47 +2,24 @@
 
 import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 
-public class UIController {
+public class UIController extends CentralComponent{
 	public UIOutput out;
 	private boolean useDefaultDisplay;
-	private MoneyHandler mh;
-	private ProductHandler productHandler;
 	public UIController (HardwareFacade hw){
 		useDefaultDisplay = true;
-		mh = null;
-		productHandler = null;
-
+		ui = this;
 	}
 	/*
 	*
-	* @return True if setting mh for first time, false if replacing an existing mh
+	* Override to set UI to equal this object
 	*/
-	public boolean registerMoneyHandler(MoneyHandler mhIn){
-		if (mh == null){
-			mh = mhIn;
-			return true;
-		} else {
-			mh = mhIn;
-			return false;
-		}
 
-	}
-	/*
-	*
-	* @return True if setting product handler for first time, false if replacing an existing one
-	*/
-	public boolean registerProductHandler(ProductHandler phIn){
-		if (productHandler == null){
-			productHandler = phIn;
-			return true;
-		} else {
-			productHandler = phIn;
-			return false;
-		}
-
+	public boolean registerUI(UIController uiIn){
+		ui = this;
+		return false;
 	}
 	public void userInput(int i){
-		productHandler.purchaseItem(i);
+		ph.purchaseItem(i);
 	}
 
 	public void displayPaymentError(){
