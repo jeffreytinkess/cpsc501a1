@@ -18,10 +18,10 @@ import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 @SuppressWarnings("javadoc")
 public class SmallSetupVendingMachineFactoryTest {
     private HardwareFacade hf;
-
+    private VendingMachine vm;
     @Before
     public void setup() {
-	VendingMachine vm = new VendingMachine(new Cents[] {new Cents(5), new Cents(10), new Cents(25), new Cents(100)}, 1, 10, 10, 10);
+	vm = new VendingMachine(new Cents[] {new Cents(5), new Cents(10), new Cents(25), new Cents(100)}, 1, 10, 10, 10);
 	hf = vm.getHardware();
     }
 
@@ -115,10 +115,49 @@ public class SmallSetupVendingMachineFactoryTest {
  	*/
 	@Test
 	public void testModifyPaymentMethod() throws DisabledException {
-		VendingMachine.getMoneyHandler().addPaymentMethod (new CashHandler(hf));
-		VendingMachine.getMoneyHandler().setMethodOfPayment (1);
-		int test = VendingMachine.getMoneyHandler().getAllPaymentMethod().length;
+		vm.getMoneyHandler().addPaymentMethod (new CashHandler(hf));
+		vm.getMoneyHandler().setMethodOfPayment (1);
+		int test = vm.getMoneyHandler().getAllPaymentMethod().length;
 		assertEquals(test, 2);
 }
- 
+
+/**
+ * T501_2
+ * Testing a second concurrent vending machine
+ */
+@Test
+public void testTwoConcurrentVM() throws DisabledException {
+  VendingMachine vm2 = new VendingMachine(new Cents[] {new Cents(5), new Cents(10), new Cents(25), new Cents(100)}, 1, 10, 10, 10);
+	HardwareFacade hf2 = vm2.getHardware();
+hf.configure(new ProductKind("stuff", new Cents(140)));
+hf.loadCoins(1, 6, 1, 1);
+hf.loadProducts(1);
+hf.getCoinSlot().addCoin(new Coin(new Cents(100)));
+hf.getCoinSlot().addCoin(new Coin(new Cents(100)));
+hf.getCoinSlot().addCoin(new Coin(new Cents(100)));
+
+hf2.configure(new ProductKind("stuff", new Cents(140)));
+hf2.loadCoins(1, 6, 1, 1);
+hf2.loadProducts(1);
+hf2.getCoinSlot().addCoin(new Coin(new Cents(100)));
+hf2.getCoinSlot().addCoin(new Coin(new Cents(100)));
+hf2.getCoinSlot().addCoin(new Coin(new Cents(100)));
+
+
+hf.getSelectionButton(0).press();
+assertEquals(Arrays.asList(160, "stuff"), Utilities.extractAndSortFromDeliveryChute(hf));
+assertEquals(330, Utilities.extractAndSumFromCoinRacks(hf));
+assertEquals(0, Utilities.extractAndSumFromStorageBin(hf));
+assertEquals(Arrays.asList(), Utilities.extractAndSortFromProductRacks(hf));
+
+hf2.getSelectionButton(0).press();
+assertEquals(Arrays.asList(160, "stuff"), Utilities.extractAndSortFromDeliveryChute(hf2));
+assertEquals(330, Utilities.extractAndSumFromCoinRacks(hf2));
+assertEquals(0, Utilities.extractAndSumFromStorageBin(hf2));
+assertEquals(Arrays.asList(), Utilities.extractAndSortFromProductRacks(hf2));
+
+
+
+}
+
 }

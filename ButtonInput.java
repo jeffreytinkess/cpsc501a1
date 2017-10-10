@@ -8,8 +8,10 @@ import org.lsmr.vending.frontend4.hardware.SelectionButtonListener;
 
 public class ButtonInput implements SelectionButtonListener{
 	HardwareFacade hardware;
-	public ButtonInput(HardwareFacade h){
+	UIController ui;
+	public ButtonInput(HardwareFacade h, UIController uiIn){
 		hardware = h;
+		ui = uiIn;
 		//Register this class as a listener on every selection button
 		int i = hardware.getNumberOfSelectionButtons();
 		for (int j = 0; j < i; j++){
@@ -26,8 +28,8 @@ public class ButtonInput implements SelectionButtonListener{
 
 	@Override
 	public void pressed(SelectionButton button) {
-		VendingMachine.getUI().userInput(hardware.indexOf(button));
-		
+		ui.userInput(hardware.indexOf(button));
+
 	}
 
 }

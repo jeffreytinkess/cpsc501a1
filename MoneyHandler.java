@@ -5,21 +5,53 @@ import java.util.List;
 import org.lsmr.vending.frontend4.hardware.HardwareFacade;
 
 public class MoneyHandler {
-	
+
 	//Used to select which method of payment will be used
 	private List <Chargeable> availablePaymentMethods;
 	private HardwareFacade hardware;
 	private Chargeable currPayMethod;
+ 	private UIController ui;
+	private ProductHandler productHandler;
 	public MoneyHandler(HardwareFacade hw){
-		
+
 			//Defaults to cash payment
 			availablePaymentMethods = new ArrayList<Chargeable>();
 			CashHandler defaultPayment = new CashHandler(hw);
 			availablePaymentMethods.add(defaultPayment);
 			currPayMethod = defaultPayment;
 			hardware = hw;
-		
-		
+			ui = null;
+			productHandler = null;
+
+
+	}
+	/*
+	*
+	* @return True if setting UI for first time, false if replacing an existing UI
+	*/
+
+	public boolean registerUI(UIController uiIn){
+		if (ui == null){
+			ui = uiIn;
+			return true;
+		} else {
+			ui = uiIn;
+			return false;
+		}
+	}
+	/*
+	*
+	* @return True if setting product handler for first time, false if replacing an existing one
+	*/
+	public boolean registerProductHandler(ProductHandler phIn){
+		if (productHandler == null){
+			productHandler = phIn;
+			return true;
+		} else {
+			productHandler = phIn;
+			return false;
+		}
+
 	}
 
 	/*
@@ -28,12 +60,12 @@ public class MoneyHandler {
 	public void addPaymentMethod (Chargeable c){
 		availablePaymentMethods.add(c);
 	}
-	
+
 	/*
 	 * Remove a method of payment from this money handler
-	 * 
+	 *
 	 */
-	
+
 	public void removePaymentMethod (int i){
 		if (i < availablePaymentMethods.size() && i >= 0){
 			availablePaymentMethods.remove(i);
@@ -63,7 +95,7 @@ public class MoneyHandler {
 		}
 		return toReturn;
 	}
-	
+
 	/*
 	 * Attempt to have the correct amount of money charged to the consumer for the purchase
 	 * @param cost The cost of the payment required
@@ -72,5 +104,5 @@ public class MoneyHandler {
 	public boolean makePurchase (int cost){
 		return currPayMethod.charge(cost);
 	}
-	
+
 }
