@@ -64,10 +64,6 @@ public class MoneyHandler {
 		return toReturn;
 	}
 	
-	public HardwareFacade getHardware(){
-		return hardware;
-	}
-	
 	/*
 	 * Attempt to have the correct amount of money charged to the consumer for the purchase
 	 * @param cost The cost of the payment required
